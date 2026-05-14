@@ -1,4 +1,4 @@
- require('dotenv').config();
+require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
@@ -14,12 +14,20 @@ const PORT = Number(process.env.PORT || 3000);
 app.use(cors());
 app.use(express.json());
 
+// 👇 ESTA FOI A ÚNICA PARTE QUE MUDOU 👇
 app.get('/', (req, res) => {
-  res.status(200).json({
-    mensagem: 'API Estação meteorológica',
-    descricao: 'Rota /api/leituras lê dados do PostgreSQL.',
+  return res.json({
+    mensagem: 'API Estação Meteorológica',
+    descricao: 'API para consulta de leituras meteorológicas armazenadas no PostgreSQL.',
+    rotasDisponiveis: {
+      listarTodasAsLeituras: 'GET /api/leituras',
+      pesquisarLeiturasPorData: 'GET /api/leituras/data/2026-04-01',
+    },
+    formatoDaData: 'YYYY-MM-DD',
+    exemploDeUso: 'http://localhost:3000/api/leituras/data/2026-04-01',
   });
 });
+// 👆 -------------------------------- 👆
 
 app.use('/api', leiturasRoutes);
 
